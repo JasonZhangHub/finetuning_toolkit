@@ -1,0 +1,55 @@
+# Configuration for the OpenAI Fine-Tuning Toolkit
+# --- File Paths ---
+file_paths:
+  data_dir: "data"  # Relative path to the directory containing your data files
+  train_filename: "train.tsv"
+  test_filename: "test.tsv"
+  # Name for the JSONL file that will be created and uploaded to OpenAI
+  output_jsonl_filename: "classification_training_data.jsonl"
+
+# --- Data Column Names ---
+# Names of the columns in your .tsv or .csv files
+data_columns:
+  text_column: "text"    # Column containing the input text to classify
+  label_column: "label"  # Column containing the true category label
+
+# --- OpenAI Model and Fine-Tuning Configuration ---
+openai_settings:
+  base_model_for_finetuning: "gpt-4o-mini-2024-07-18"
+
+  # Hyperparameters for the fine-tuning job
+  # For batch_size and learning_rate_multiplier, "auto" lets OpenAI decide.
+  # For n_epochs, "auto" might also be supported for some models, or specify an integer.
+  hyperparameters:
+    n_epochs: 3 # Or "auto" if supported by your chosen base model
+    batch_size: "auto"
+    learning_rate_multiplier: "auto"
+
+  # Example: "my-classifier-v1"
+  model_suffix: "gen-clf-v1"
+
+# --- Prompt Customization ---
+# Define the structure and wording of the prompts used for fine-tuning and inference
+prompt_customization:
+  instruction: "Please classify the following customer support ticket into one of these categories:"
+  category_list_tag: "support_categories" # XML-like tag for the list of categories
+  item_wrapper_tag: "ticket_text"         # XML-like tag for the input item
+  output_wrapper_tag: "assigned_category" # XML-like tag for the model's output label
+
+# --- Script Behavior and Execution Control ---
+script_behavior:
+  # These flags allow you to run only specific parts of the workflow,
+  # useful for debugging or if some steps have already been completed.
+  # Set to `false` to skip a step.
+  upload_training_file: true
+  start_fine_tuning_job: true # This step incurs costs
+  evaluate_base_model: true
+  evaluate_tuned_model: true
+
+  # Polling behavior for the fine-tuning job status
+  polling:
+    interval_seconds: 30 # How often to check the job status
+    timeout_seconds: 7200 # Max time to wait (e.g., 7200s = 2 hours)
+  
+  # Number of samples from the test set to use for evaluation
+  evaluation_sample_size: 20 

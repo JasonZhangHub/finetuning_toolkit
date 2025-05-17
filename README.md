@@ -61,6 +61,7 @@ Alternatively, if you are not using Poetry, you can create a `requirements.txt` 
 python-dotenv==1.1.0
 openai==1.79.0
 google-genai==1.15.0
+pandas==2.2.3
 pydantic==2.11.4
 ```
 
