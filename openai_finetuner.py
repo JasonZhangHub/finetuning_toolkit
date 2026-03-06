@@ -434,7 +434,7 @@ def main():
     TEST_FILE = 'data/test.tsv'
     TEXT_COLUMN = 'text'
     LABEL_COLUMN = 'label'
-    OUTPUT_JSONL_FILE = 'classification_training_data.jsonl'
+    OUTPUT_JSONL_FILE = 'openai_classification_training_data.jsonl'
 
     BASE_MODEL_FOR_FINETUNING = 'gpt-4o-mini-2024-07-18'
 

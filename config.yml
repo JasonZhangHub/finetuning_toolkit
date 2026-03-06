@@ -1,0 +1,46 @@
+# Configuration for the Gemini Fine-Tuning Toolkit
+
+# --- File Paths ---
+file_paths:
+  data_dir: "data"
+  train_filename: "train.tsv"
+  test_filename: "test.tsv"
+  output_jsonl_filename: "gemini_classification_train_data.jsonl"
+
+# --- Data Column Names ---
+data_columns:
+  text_column: "text"  
+  label_column: "label"
+
+# --- Gemini Model and Fine-Tuning Configuration ---
+gemini_settings:
+  base_model_for_tuning: "gemini-1.5-flash-001"
+  user_defined_tuned_model_id: "my-gemini-classifier-001"
+  tuned_model_display_name: "My Gemini Classifier"
+
+  hyperparameters:
+    epoch_count: 10
+    batch_size: 4
+    learning_rate: 0.001 
+
+  # Base model to use for zero-shot/few-shot classification evaluation (if different from tuning base)
+  # Often the same as base_model_for_tuning, or a general inference endpoint like "gemini-1.5-flash-latest"
+  base_model_for_evaluation: "gemini-1.5-flash-latest"
+
+
+# --- Script Behavior and Execution Control ---
+script_behavior:
+  # These flags allow you to run only specific parts of the workflow.
+  # Set to `false` to skip a step.
+  upload_training_file: true
+  start_fine_tuning_job: true # This step incurs costs
+  evaluate_base_model: true
+  evaluate_tuned_model: true
+
+  # Polling behavior for the fine-tuning job status
+  polling:
+    interval_seconds: 60  # How often to check the job status
+    timeout_seconds: 7200 # Max time to wait (e.g., 7200s = 2 hours)
+
+  # Number of samples from the test set to use for evaluation
+  evaluation_sample_size: 20
